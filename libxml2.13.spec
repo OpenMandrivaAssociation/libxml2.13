@@ -65,8 +65,6 @@ BuildRequires:	devel(libz)
 BuildRequires:	devel(liblzma)
 %endif
 %if "%{lib32name}" == "%{name}"
-# Renamed 2025-03-07 before 6.0
-%rename %{oldlib32name}
 %endif
 
 %description
@@ -166,7 +164,7 @@ either at parse time or later once the document has been modified.
 %endif
 
 %prep
-%autosetup -p1
+%autosetup -n -libxml2-%{version} -p1
 
 %if %{with compat32}
 export CONFIGURE_TOP="$(pwd)"
