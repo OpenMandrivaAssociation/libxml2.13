@@ -164,7 +164,7 @@ either at parse time or later once the document has been modified.
 %endif
 
 %prep
-%autosetup -n -libxml2-%{version} -p1
+%autosetup -n libxml2-%{version} -p1
 
 %if %{with compat32}
 export CONFIGURE_TOP="$(pwd)"
