@@ -30,7 +30,7 @@
 # (tpg) optimize it a bit
 %global optflags %{optflags} -O3
 
-Summary:	Library providing XML and HTML support
+Summary:	Compat library providing XML and HTML support
 Name:		libxml2.13
 Version:	2.13.9
 Release:	1
