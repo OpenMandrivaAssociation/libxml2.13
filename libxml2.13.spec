@@ -246,8 +246,12 @@ xz --text -T0 -c doc/libxml2-api.xml > doc/libxml2-api.xml.xz
 %install
 %if %{with compat32}
 %ninja_install -C build32
+# remove pkgconfig in compat package
+rm -f %{buildroot}%{_prefix}/lib/pkgconfig/libxml-2.0.pc
 %endif
 %ninja_install -C build
+# remove pkgconfig in compat package
+rm -f %{buildroot}%{_libdir}/pkgconfig/libxml-2.0.pc
 
 # remove unpackaged files
 rm -rf %{buildroot}%{_prefix}/doc %{buildroot}%{_datadir}/doc
@@ -281,7 +285,7 @@ rm -rf %{buildroot}%{_prefix}/doc %{buildroot}%{_datadir}/doc
 %{_bindir}/xml2-config
 %{_libdir}/cmake/libxml2*
 %{_libdir}/libxml2.so
-%{_libdir}/pkgconfig/*
+#{_libdir}/pkgconfig/*
 %{_includedir}/*
 %doc %{_mandir}/man1/xml2-config*
 
@@ -291,6 +295,6 @@ rm -rf %{buildroot}%{_prefix}/doc %{buildroot}%{_datadir}/doc
 
 %files -n %{dev32name}
 %{_prefix}/lib/libxml2.so
-%{_prefix}/lib/pkgconfig/*.pc
+#{_prefix}/lib/pkgconfig/*.pc
 %{_prefix}/lib/cmake/libxml2*
 %endif
