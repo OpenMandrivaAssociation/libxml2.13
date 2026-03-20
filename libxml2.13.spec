@@ -262,6 +262,7 @@ rm -rf \
   %{buildroot}%{_libdir}/libxml2.so \
   %{buildroot}%{_libdir}/pkgconfig \
   %{buildroot}%{_includedir} \
+  %{buildroot}%{_mandir}/man1/xml2-config*
 
 # remove unpackaged files
 rm -rf %{buildroot}%{_prefix}/doc %{buildroot}%{_datadir}/doc
