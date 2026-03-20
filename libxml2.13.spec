@@ -23,7 +23,7 @@
 %bcond_with compat32
 %endif
 %if %{with compat32}
-%define lib32name libxml2
+%define lib32name libxml2.13
 %define dev32name libxml2-devel
 %endif
 
@@ -33,7 +33,7 @@
 Summary:	Compat library providing XML and HTML support
 Name:		libxml2.13
 Version:	2.13.9
-Release:	1
+Release:	2
 License:	MIT
 Group:		System/Libraries
 Url:		https://www.xmlsoft.org/
@@ -88,25 +88,25 @@ for reading, modifying and writing XML and HTML files. There is DTDs
 support: this includes parsing and validation even with complex DtDs,
 either at parse time or later once the document has been modified.
 
-%package -n %{devname}
-Summary:	Libraries, includes, etc. to develop XML and HTML applications
-Group:		Development/C
-Requires:	%{libname} = %{EVRD}
-Provides:	%{name}-devel = %{EVRD}
-%if %{with icu}
+#package -n %{devname}
+#Summary:	Libraries, includes, etc. to develop XML and HTML applications
+#Group:		Development/C
+#Requires:	%{libname} = %{EVRD}
+#Provides:	%{name}-devel = %{EVRD}
+#if %{with icu}
 # libxml/encoding.h #includes <unicode/ucnv.h>
-Requires:	pkgconfig(icu-i18n)
-%endif
+#Requires:	pkgconfig(icu-i18n)
+#endif
 # Needed because libxml2.so links to them
-Requires:	pkgconfig(liblzma)
-Requires:	pkgconfig(zlib)
+#Requires:	pkgconfig(liblzma)
+#Requires:	pkgconfig(zlib)
 
-%description -n %{devname}
-Libraries, include files, etc you can use to develop XML applications.
-This library allows you to manipulate XML files. It includes support
-for reading, modifying and writing XML and HTML files. There is DTDs
-support: this includes parsing and validation even with complex DtDs,
-either at parse time or later once the document has been modified.
+#description -n %{devname}
+#Libraries, include files, etc you can use to develop XML applications.
+#This library allows you to manipulate XML files. It includes support
+#for reading, modifying and writing XML and HTML files. There is DTDs
+#support: this includes parsing and validation even with complex DtDs,
+#either at parse time or later once the document has been modified.
 
 %if %{with compat32}
 %if "%{lib32name}" != "%{name}"
@@ -121,21 +121,21 @@ support: this includes parsing and validation even with complex DtDs,
 either at parse time or later once the document has been modified.
 %endif
 
-%package -n %{dev32name}
-Summary:	Libraries, includes, etc. to develop XML and HTML applications (32-bit)
-Group:		Development/C
-Requires:	%{lib32name} = %{EVRD}
-Requires:	%{devname} = %{EVRD}
+#package -n %{dev32name}
+#Summary:	Libraries, includes, etc. to develop XML and HTML applications (32-bit)
+#Group:		Development/C
+#Requires:	%{lib32name} = %{EVRD}
+#Requires:	%{devname} = %{EVRD}
 # Needed because libxml2.so links to them
-Requires:	pkgconfig(liblzma)
-Requires:	devel(libz)
+#Requires:	pkgconfig(liblzma)
+#Requires:	devel(libz)
 
-%description -n %{dev32name}
-Libraries, include files, etc you can use to develop XML applications.
-This library allows you to manipulate XML files. It includes support
-for reading, modifying and writing XML and HTML files. There is DTDs
-support: this includes parsing and validation even with complex DtDs,
-either at parse time or later once the document has been modified.
+#description -n %{dev32name}
+#Libraries, include files, etc you can use to develop XML applications.
+#This library allows you to manipulate XML files. It includes support
+#for reading, modifying and writing XML and HTML files. There is DTDs
+#support: this includes parsing and validation even with complex DtDs,
+#either at parse time or later once the document has been modified.
 %endif
 
 %package utils
@@ -246,12 +246,23 @@ xz --text -T0 -c doc/libxml2-api.xml > doc/libxml2-api.xml.xz
 %install
 %if %{with compat32}
 %ninja_install -C build32
-# remove pkgconfig in compat package
-rm -f %{buildroot}%{_prefix}/lib/pkgconfig/libxml-2.0.pc
+# remove devel in compat package
+rm -rf \
+ %{buildroot}%{_prefix}/lib/libxml2.so \
+ %{buildroot}%{_prefix}/lib/pkgconfig \
+ %{buildroot}%{_prefix}/lib/cmake/libxml2*
+  
 %endif
 %ninja_install -C build
-# remove pkgconfig in compat package
-rm -f %{buildroot}%{_libdir}/pkgconfig/libxml-2.0.pc
+# remove devel in compat package
+rm -rf \
+  %{buildroot}%{_datadir}/aclocal \
+  %{buildroot}%{_bindir}/xml2-config \
+  %{buildroot}%{_libdir}/cmake/libxml2* \
+  %{buildroot}%{_libdir}/libxml2.so \
+  %{buildroot}%{_libdir}/pkgconfig \
+  %{buildroot}%{_includedir} \
+  %{buildroot}%{_mandir}/man1/xml2-config*
 
 # remove unpackaged files
 rm -rf %{buildroot}%{_prefix}/doc %{buildroot}%{_datadir}/doc
@@ -278,23 +289,23 @@ rm -rf %{buildroot}%{_prefix}/doc %{buildroot}%{_datadir}/doc
 %{py_platsitedir}/*.py
 %endif
 
-%files -n %{devname}
-%doc README* Copyright
-%doc doc/libxml2-api.xml.xz
-%{_datadir}/aclocal/*
-%{_bindir}/xml2-config
-%{_libdir}/cmake/libxml2*
-%{_libdir}/libxml2.so
+#files -n %{devname}
+#doc README* Copyright
+#doc doc/libxml2-api.xml.xz
+#{_datadir}/aclocal/*
+#{_bindir}/xml2-config
+#{_libdir}/cmake/libxml2*
+#{_libdir}/libxml2.so
 #{_libdir}/pkgconfig/*
-%{_includedir}/*
-%doc %{_mandir}/man1/xml2-config*
+#{_includedir}/*
+#doc %{_mandir}/man1/xml2-config*
 
 %if %{with compat32}
 %files -n %{lib32name}
 %{_prefix}/lib/libxml2.so.%{major}*
 
-%files -n %{dev32name}
-%{_prefix}/lib/libxml2.so
+#files -n %{dev32name}
+#{_prefix}/lib/libxml2.so
 #{_prefix}/lib/pkgconfig/*.pc
-%{_prefix}/lib/cmake/libxml2*
+#{_prefix}/lib/cmake/libxml2*
 %endif
