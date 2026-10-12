@@ -38,6 +38,7 @@ License:	MIT
 Group:		System/Libraries
 Url:		https://www.xmlsoft.org/
 Source0:	https://download.gnome.org/sources/libxml2/%(echo %{version}|cut -d. -f1-2)/libxml2-%{version}.tar.xz
+Source1:	libxml2.13.rpmlintrc
 #Source0:	http://xmlsoft.org/sources/%{name}-%{version}.tar.gz
 Patch1:		libxml2-2.9.9-no-Lusrlib.patch
 Patch2:		https://src.fedoraproject.org/rpms/libxml2/raw/rawhide/f/libxml2-2.9.8-python3-unicode-errors.patch
@@ -241,7 +242,7 @@ cd ..
 
 %ninja_build -C build
 
-xz --text -T0 -c doc/libxml2-api.xml > doc/libxml2-api.xml.xz
+xz -T0 -c doc/libxml2-api.xml > doc/libxml2-api.xml.xz
 
 %install
 %if %{with compat32}

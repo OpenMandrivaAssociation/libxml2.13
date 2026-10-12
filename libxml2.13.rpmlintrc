@@ -1,0 +1,2 @@
+# 32-bit libraries are installed in /usr/lib on purpose.
+addFilter("hardcoded-library-path")
