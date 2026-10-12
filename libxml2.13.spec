@@ -169,6 +169,9 @@ either at parse time or later once the document has been modified.
 
 %if %{with compat32}
 export CONFIGURE_TOP="$(pwd)"
+# clang cannot link -m32: the i386 compiler-rt builtins are not packaged.
+export CC=gcc
+export CXX=g++
 %cmake32 \
 	-G Ninja \
 	-DLIBXML2_WITH_PYTHON:BOOL=OFF \
