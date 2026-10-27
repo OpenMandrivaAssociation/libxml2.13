@@ -33,7 +33,7 @@
 Summary:	Compat library providing XML and HTML support
 Name:		libxml2.13
 Version:	2.13.9
-Release:	3
+Release:	4
 License:	MIT
 Group:		System/Libraries
 Url:		https://www.xmlsoft.org/
